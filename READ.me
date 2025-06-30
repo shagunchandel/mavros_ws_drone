@@ -1,0 +1,66 @@
+I will start with the process to axecute the solution that i have made 
+    !. Based on the Video i came to know that you guys are using DJI drones primalary for you purpose.
+    here i have used Px4_autopilot drone instead as that can be build up from ground and more 3rd part development can be done like including extra sensors for more stability etc.
+
+My architechural design include connecting px4 drone to ROS nodes for computation for this purpose we have used MOVROS and MAVLINK as a middleware
+it helps in scalibilty where we can use diffrent path-planning algos to assist in avoiding obsticle and reaching waypoints
+
+the spacial and temperol checks are performed by following trapozidal motion and check the position of each drone and its location based on time and if there is any conflict it will give out the conflict position and time and the drones invloved in the conflict.
+the above solution can be simulated on platform like gazebo which i have used.
+
+AI like YOLO can be used for object detection that will detect other drones the in path of drones that can help collision free movement 
+
+Edge cases that i can think of if the waypoint that are not defined in the array of points that are given so ai with computer vision can be used to modify them slightly to avoid the conflict, we can take holistic approch on it for the action taken.
+
+since i am using px4 and ROS the system will be mosly realtime and based on the topics and joints motion control we should be able to scale it up.
+like treating the set of drones as one unit and then apply path planing algorithm like RRT or A*.
+
+
+
+Installation 
+
+i have used to ubuntu 20.04 WSL 
+so install ROS noetic first . src.: https://wiki.ros.org/noetic/Installation/Ubuntu
+follow the instruction above 
+
+now for px4 for sitl
+https://docs.px4.io/main/en/sim_gazebo_classic/#starting-gazebo-and-px4-separately
+
+follow the link above for simulation of the drone 
+
+be sure to use gazebo_classic there some conflicts and need to make sure to navigate through it 
+bash ./PX4-Autopilot/Tools/setup/ubuntu.sh 
+run the above command for building the px4
+
+make px4_sitl gazebo-classic
+
+run the above command in directory
+
+make px4_sitl gazebo-classic_typhoon_h480__bayland (If you are using this need to activate mavros by running the following in same terminal )
+
+run the above command to start the gazebo simulation for a forest gazebo world 
+
+once everything is build for multiple drone 
+
+
+source ~/Projects/px4_drone/PX4-Autopilot/Tools/simulation/gazebo-classic/setup_gazebo.bash ~/Projects/px4_drone/PX4-Autopilot ~/Projects/px4_drone/PX4-Autopilot/build/px4_sitl_default
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/Projects/px4_drone/PX4-Autopilot
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/Projects/px4_drone/PX4-Autopilot/Tools/simulation/gazebo-classic/sitl_gazebo-classic
+export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:/usr/lib/x86_64-linux-gnu/gazebo-9/plugins
+
+add the above to your .bashrc modify the path accordingly 
+
+download and build the package i have created git@github.com:shagunchandel/mavros_ws_drone.git
+
+clone it and then build it using catkin_make and launch the launch file for single drone path control 
+for multiple drone there is a python file but not tested it yet
+
+
+cd /home/magicturtle/Projects/px4_drone/PX4-Autopilot
+make clean
+make px4_sitl_default
+
+the above commands need to be run to include them as a ros package
+
+also i have changed the world in the launch file and you also need to do the same 
+
