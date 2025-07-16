@@ -1,11 +1,11 @@
 <launch>
     <!-- Start MAVROS with UDP connection to PX4 -->
-    <include file="$(find mavros)/launch/px4.launch">
+    <!-- <include file="$(find mavros)/launch/px4.launch">
         <arg name="fcu_url" value="udp://:14540@localhost:14557" />
         <arg name="gcs_url" value="" />
         <arg name="tgt_system" value="1"/>
         <arg name="tgt_component" value="1"/>
-    </include>
+    </include> -->
 
     <!-- Your Offboard Control Node -->
     <node pkg="offb_node" type="offb_node_node" name="offb_node" output="screen" />
