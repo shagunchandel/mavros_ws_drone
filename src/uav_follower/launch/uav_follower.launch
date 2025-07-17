@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="uav_follower" type="uav_follower_node.py" name="uav2_follower_node" output="screen" />
+</launch>
